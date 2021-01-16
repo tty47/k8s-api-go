@@ -1,4 +1,4 @@
-FROM golang:1.15.3 as builder
+FROM golang:1.15.3-alpine as builder
 LABEL maintainer="Jose Ramon Mañes - github.com/jrmanes"
 ADD . /app
 WORKDIR /app
