@@ -5,11 +5,10 @@ import (
 	"os"
 	"os/signal"
 
-	_ "gith/home/joseramon/Desktop/k8s-api-go/internal/dataub.com/lib/pq"
-
 	"github.com/joho/godotenv"
 	"github.com/jrmanes/k8s-api-go/internal/data"
 	"github.com/jrmanes/k8s-api-go/internal/server"
+	_ "github.com/lib/pq"
 )
 
 // Load that function before starts the service
@@ -35,12 +34,9 @@ func main() {
 
 	// start the server.
 	go serv.Start()
+
 	// Wait for an in interrupt .
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, os.Interrupt)
 	<-c
-
-	// Attempt a graceful shutdown.
-	serv.Close()
-	data.Close()
 }

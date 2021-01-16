@@ -6,9 +6,11 @@ import (
 	"time"
 
 	"github.com/go-chi/chi"
+	"github.com/go-chi/chi/middleware"
 	v1 "github.com/jrmanes/k8s-api-go/internal/server/v1"
 )
 
+// Server define an http standard library
 type Server struct {
 	server *http.Server
 }
@@ -17,6 +19,9 @@ type Server struct {
 func New(port string) (*Server, error) {
 	r := chi.NewRouter()
 
+	// use chi middleware in order to log request request to our API
+	r.Use(middleware.Logger)
+
 	r.Mount("/", v1.New())
 
 	// validate the port received, if not, use default 8080
@@ -24,6 +29,7 @@ func New(port string) (*Server, error) {
 		port = "8080"
 	}
 
+	// set configuration to our server
 	serv := &http.Server{
 		Addr:         ":" + port,
 		Handler:      r,
@@ -34,12 +40,6 @@ func New(port string) (*Server, error) {
 	server := Server{server: serv}
 
 	return &server, nil
-}
-
-// Close server resources.
-func (serv *Server) Close() error {
-	// TODO: add resource closure.
-	return nil
 }
 
 // Start the server.

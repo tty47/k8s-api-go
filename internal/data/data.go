@@ -48,12 +48,3 @@ func initDB() {
 		DB: db,
 	}
 }
-
-// Close closes the resources used by data.
-func Close() error {
-	if data == nil {
-		return nil
-	}
-
-	return data.DB.Close()
-}
