@@ -1,13 +1,12 @@
 PROJECT_NAME := k8s-api-go
 REGISTRY_NAME := jrmanes
 
+
 build:
-	docker build . -t $(REGISTRY_NAME)/$(PROJECT_NAME):latest
+	docker build . -f Dockerfile -t $(REGISTRY_NAME)/$(PROJECT_NAME):latest
 
 test:
-
-login:
-	docker login --username=${DOCKER_USER} --password=${DOCKER_PASS}
+	docker build . -f Dockerfile.test --build-arg CACHE_DATE=$(date)
 
 push:
 	docker push $(REGISTRY_NAME)/$(PROJECT_NAME):latest
