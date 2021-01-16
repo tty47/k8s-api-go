@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k8s-api-go
+  namespace: k8s-api-go
+spec:
+  selector:
+    matchLabels:
+      app: k8s-api-go
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: k8s-api-go
+    spec:
+      containers:
+        - name: k8s-api-go
+          image: jrmanes/k8s-api-go:latest
+          ports:
+            - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: k8s-api-go-svc
+  namespace: k8s-api-go
+  labels:
+    app: k8s-api-go
+spec:
+  ports:
+    - port: 8080
+      name: k8s-api-go
+  type: NodePort
+  selector:
+    app: postgres
