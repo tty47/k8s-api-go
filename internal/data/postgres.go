@@ -16,6 +16,7 @@ func getConnection() (*sql.DB, error) {
 	uri := os.Getenv("DB_DRIVER") + "://" + os.Getenv("DB_USER") +":" +
 		os.Getenv("DB_PASSWORD") +"@" +os.Getenv("DB_HOST") +":"+ os.Getenv("DB_PORT") +
 		"/"+os.Getenv("DB_NAME")+"?&sslmode=disable"
+
 	return sql.Open(os.Getenv("DB_DRIVER") , uri)
 }
 
