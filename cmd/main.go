@@ -14,9 +14,13 @@ import (
 // Load that function before starts the service
 func init() {
 	// Load .env
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file... ERROR: ", err)
+	if os.Getenv("ENV") == "local" {
+		err := godotenv.Load()
+		if err != nil {
+			log.Fatal("Error loading .env file... ERROR: ", err)
+		}
+	} else {
+		log.Print("Current environment:", os.Getenv("ENV"))
 	}
 }
 

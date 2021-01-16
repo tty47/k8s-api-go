@@ -16,8 +16,36 @@ spec:
       containers:
         - name: k8s-api-go
           image: jrmanes/k8s-api-go:latest
+          env:
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: k8s-api-go-secret
+                  key: DB_USER
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: k8s-api-go-secret
+                  key: DB_PASSWORD
+            - name: DB_DRIVER
+              value: "postgres"
+            - name: DB_HOST
+              value: "postgres-svc"
+            - name: DB_NAME
+              value: "jrmanes"
+            - name: DB_PORT
+              value: "5432"
+            - name: DATABASE_MIGRATIONS
+              value: "true"
+            - name: ENV
+              value: "dev"
+            - name: SERVER_PORT
+              value: "8080"
+            - name: DATABASE_URI
+              value: "$DB_DRIVER://$DB_USER:$DB_PASSWORD@$DB_HOST:$DB_PORT/$DB_NAME?&sslmode=disable"
           ports:
             - containerPort: 8080
+          imagePullPolicy: Always
 ---
 apiVersion: v1
 kind: Service
@@ -32,4 +60,14 @@ spec:
       name: k8s-api-go
   type: NodePort
   selector:
-    app: postgres
+    app: k8s-api-go
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: k8s-api-go-secret
+  namespace: k8s-api-go
+type: Opaque
+data:
+  DB_PASSWORD: anJtYW5lcw==
+  DB_USER: anJtYW5lcw==

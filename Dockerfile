@@ -7,7 +7,7 @@ RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main ./cmd
 ######## Start a new stage from scratch #######
 FROM alpine:latest
 # Copy the Pre-built binary file from the previous stage
-COPY --from=builder /app/.env .env
+#COPY --from=builder /app/.env .env
 COPY --from=builder /app/main .
 COPY --from=builder /app/internal/data/*.sql ./internal/data/init.sql
 # Expose port 8080 to the outside world
