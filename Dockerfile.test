@@ -1,0 +1,11 @@
+FROM golang:1.15.3 as builder
+LABEL maintainer="Jose Ramon Mañes - github.com/jrmanes"
+
+# Set date in order to no cache
+ARG CACHE_DATE=2016-01-01
+
+ADD . /app
+WORKDIR /app
+
+# Run command in order to execute project tests
+RUN go test -v ./...
