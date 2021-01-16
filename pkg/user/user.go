@@ -7,5 +7,5 @@ type User struct {
 	Role     string `json:"role"`
 }
 
-// stype users is a users array
+// type users is a users array
 type Users []User
