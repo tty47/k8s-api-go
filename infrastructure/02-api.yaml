@@ -43,6 +43,13 @@ spec:
               value: "8080"
             - name: DATABASE_URI
               value: "$DB_DRIVER://$DB_USER:$DB_PASSWORD@$DB_HOST:$DB_PORT/$DB_NAME?&sslmode=disable"
+          resources:
+            limits:
+              cpu: 450m
+              memory: 512Mi
+            requests:
+              cpu: 250m
+              memory: 252Mi
           ports:
             - containerPort: 8080
           imagePullPolicy: Always

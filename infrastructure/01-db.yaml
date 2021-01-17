@@ -64,6 +64,13 @@ spec:
           envFrom:
             - configMapRef:
                 name: postgres-configuration
+          resources:
+            limits:
+              cpu: 750m
+              memory: 700Mi
+            requests:
+              cpu: 450m
+              memory: 450Mi
           ports:
             - containerPort: 5432
               name: postgresdb
